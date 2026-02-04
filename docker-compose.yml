@@ -7,8 +7,7 @@ services:
     tty: true
     volumes:
       - C:/openclaw/data:/home/node/.openclaw
-      - C:/openclaw/worksapce:/home/node/.openclaw/workspace
-      - C:/github/paste_smart:/home/node/.openclaw/workspace/github/paste_smart
+      - C:/openclaw/workspace:/home/node/.openclaw/workspace
     ports:
       - "18789:18789"
       - "18790:18790"
@@ -31,7 +30,7 @@ services:
     tty: true
     volumes:
       - C:/openclaw/data:/home/node/.openclaw
-      - C:/openclaw/worksapce:/home/node/.openclaw/workspace
+      - C:/openclaw/workspace:/home/node/.openclaw/workspace
     environment:
       - NODE_ENV=production
     entrypoint: ["node", "/app/dist/index.js"]
