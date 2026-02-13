@@ -89,7 +89,10 @@ paste code it provide
 
 http://localhost:18789/?token=<token>
 
-## skill
+## Skill
+- [Openclaw guide](https://docs.openclaw.ai/tools/skills#skills)
+- [ChatGPT 問答](https://chatgpt.com/c/6985afc5-fb3c-83a5-8652-420372e44437)
+- [Youtube Full Beginer Guide](https://www.youtube.com/watch?v=hXEKgSnD1Gs)
 
 ### Locations and precedence
 Skills are loaded from three places:
@@ -111,3 +114,67 @@ In multi-agent setups, each agent has its own workspace. That means:
 - Shared folders can also be added via skills.load.extraDirs (lowest precedence) if you want a common skills pack used by multiple agents.
 
 If the same skill name exists in more than one place, the usual precedence applies: workspace wins, then managed/local, then bundled.
+
+### 範例
+local 測試需要進入 openclaw 的 container
+```bat
+docker compose --profile cli exec openclaw-gateway /bin/bash
+```
+
+#### openclaw 設定
+在 ~/.openclaw/openclaw.json
+```json
+"skills": {
+  "install": {
+    "nodeManager": "npm"
+  },
+  "load": {
+    "watch": true,
+    "watchDebounceMs": 250
+  }
+}
+```
+加上 
+```json
+"load": {
+  "watch": true,
+  "watchDebounceMs": 250
+}
+```
+openclaw 會照指定時間重新掃描
+
+NOTE: 加入後請使用新的 session 不然 chat-bot 會回應找不到
+
+#### 檔案
+唯一需要的是 SKILL.md
+
+不過一般會建議另外寫 README.md
+
+SKILL.md
+```markdown
+
+---
+name: audio-output-sample
+description: Modify incoming audio locally in Python (gain/highpass).
+---
+
+# Audio Output Sample
+
+This skill modifies incoming audio by running a local Python script.
+
+## Install
+python -m pip install -r requirements.txt
+
+## Usage
+
+```
+python -m scripts/run_local --in <input.wav> --gain-db 6 --highpass-hz 80
+```
+
+### Parameter
+- Apply gain in dB
+- Optional high-pass filter
+```
+
+- name 必須和 <abc-directory-name> 相同
+
