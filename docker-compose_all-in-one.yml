@@ -10,11 +10,11 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./_openclaw/data:/home/node/.openclaw
-      - ./_openclaw/workspace:/home/node/.openclaw/workspace
+      - ${OPENCLAW_DATA_DIR}:/home/node/.openclaw
+      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
     ports:
-      - "18789:18789"
-      - "18790:18790"
+      - "${OPENCLAW_PRIMARY_PORT}:18789"
+      - "${OPENCLAW_SECONDARY_PORT}:18790"
     environment:
       - NODE_ENV=production
       - OPENCLAW_SKIP_SERVICE_CHECK=true
@@ -32,7 +32,7 @@ services:
     container_name: openclaw-socat
     restart: unless-stopped
     network_mode: "service:openclaw-gateway"
-    command: "TCP-LISTEN:18790,fork,bind=0.0.0.0,reuseaddr TCP:127.0.0.1:18789"
+    command: "TCP-LISTEN:${OPENCLAW_SECONDARY_PORT},fork,bind=0.0.0.0,reuseaddr TCP:127.0.0.1:${OPENCLAW_PRIMARY_PORT}"
 
   openclaw-cli:
     build: .
@@ -41,8 +41,8 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./_openclaw/data:/home/node/.openclaw
-      - ./_openclaw/workspace:/home/node/.openclaw/workspace
+      - ${OPENCLAW_DATA_DIR}:/home/node/.openclaw
+      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
     environment:
       - NODE_ENV=production
     entrypoint: ["node", "/app/dist/index.js"]
