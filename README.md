@@ -4,31 +4,38 @@
 build_all-in-one.bat
 
 ### variable
-- MAIN_COMPOSE_FILE: assigned compose file, leave empty for docker-compose.yml
+- MAIN_COMPOSE_FILE: 指定 compose 檔、不指定則預設為 docker-compose.yml
 - OPENCLAW_DATA_DIR: binding ~/.openclaw
-- OPENCLAW_WORKSPACE_DIR: binding default workspace of openclaw
-- OPENCLAW_PRIMARY_PORT: binding primary/webui port
-- OPENCLAW_SECONDARY_PORT: binding secondary/ssh and other specific job port
+- OPENCLAW_WORKSPACE_DIR: binding 預設 openclaw workspace
+- OPENCLAW_PRIMARY_PORT: binding 主要/webui port
+- OPENCLAW_SECONDARY_PORT: binding 次要/ssh 和其它特殊用 port
 
 ### parameter
-1. 1st parameter: mode
+1. 模式
     - rebuild
-        - build/rebuild container
-        - alias: &gt;empty&lt;, build
+        - 建立/重建 container
+        - 同樣效果: &gt;留空&lt;, build
     - reset
-        - reset/restart container
-        - alias: restart
+        - 重設/重新啟動 container
+        - 同樣效果: restart
     - cli
-        - use openclaw command
-        - alias: openclaw
+        - 使用 openclaw 指令
+        - 同樣效果: openclaw
     - shell
-        - enter command line of container
-2. 2nd parameter: command
-    - only work if choose `cli` mode
+        - 進入 container 的命令行
+2. openclaw 指令
+    - 只在使用 cli 模式下使用
+    - 不輸入預設進入 openclaw onboard 介面
+    - build_all-in-one.bat cli --help 檢視說明
 3. other parameter: parameter of command
+    - 只在使用 cli 模式下使用
 
 
-## setup
+## Setup
+```
+openclaw onboard
+```
+OR
 ```
 docker compose --profile cli run --rm openclaw-cli onboard
 ```
@@ -206,3 +213,22 @@ python -m scripts/run_local --in <input.wav> --gain-db 6 --highpass-hz 80
 
 - name 必須和 <abc-directory-name> 相同
 
+## Agent
+增加一個 bot 人格
+
+```
+openclaw agents add <agentname> --workspace <dir>
+```
+建議使用 ~/.openclaw/workspace-<agentname>
+
+預設建立下列檔案
+- .git: git repo
+- AGENTS.md: 主要檔案
+- BOOTSTRAP.md: 啟動/初始化使用，之後會被刪除
+- HEARTBEAT.md
+- IDENTITY.md: bot 基本資料
+- SOUL.md: bot 應該做什麼事
+- TOOLS.md: bot 學習並可以使用的工具 SKILL 等
+- USER.md: bot 服務的對象資料
+
+除了 AGENTS.md 以外，其它都可以任意刪除
