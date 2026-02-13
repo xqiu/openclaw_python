@@ -1,5 +1,33 @@
 # openclaw_python
 
+## build cmd/bat
+build_all-in-one.bat
+
+### variable
+- MAIN_COMPOSE_FILE: assigned compose file, leave empty for docker-compose.yml
+- OPENCLAW_DATA_DIR: binding ~/.openclaw
+- OPENCLAW_WORKSPACE_DIR: binding default workspace of openclaw
+- OPENCLAW_PRIMARY_PORT: binding primary/webui port
+- OPENCLAW_SECONDARY_PORT: binding secondary/ssh and other specific job port
+
+### parameter
+1. 1st parameter: mode
+    - rebuild
+        - build/rebuild container
+        - alias: &gt;empty&lt;, build
+    - reset
+        - reset/restart container
+        - alias: restart
+    - cli
+        - use openclaw command
+        - alias: openclaw
+    - shell
+        - enter command line of container
+2. 2nd parameter: command
+    - only work if choose `cli` mode
+3. other parameter: parameter of command
+
+
 ## setup
 ```
 docker compose --profile cli run --rm openclaw-cli onboard
